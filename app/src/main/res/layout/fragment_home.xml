@@ -51,14 +51,16 @@
         app:srcCompat="@drawable/circle">
     </ImageView>
 
-    <Button
+    <ToggleButton
         android:id="@+id/auto_clean_button"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="136dp"
         android:background="@drawable/round_button"
         android:text="Clean"
-        android:textColor="#fff"
+        android:textOff="Clean"
+        android:textOn="Clean"
+        android:textColor="#070707"
         android:textSize="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
