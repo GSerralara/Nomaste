@@ -15,5 +15,15 @@ public class Robot {
        this.id = id;
        this.speed = speed;
     }
+    public String getName(){
+        return "Robot id "+id;
+    }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

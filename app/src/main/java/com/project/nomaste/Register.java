@@ -16,9 +16,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
-public class Register extends Activity {
-    TextInputEditText mail, password;
+public class Register extends AppCompatActivity {
+    TextInputEditText mail, password,check;
     Button registerButton;
     ProgressBar pb;
     FirebaseAuth auth;
@@ -27,13 +29,16 @@ public class Register extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         auth = FirebaseAuth.getInstance();
 
-        mail = findViewById(R.id.email_field);
-        password = findViewById(R.id.password_field);
+        mail = findViewById(R.id.email_register_field);
+        password = findViewById(R.id.password_register_field);
+        check = findViewById(R.id.password_check_register_field);
+
         registerButton = findViewById(R.id.register_button);
         pb = findViewById(R.id.progressBar_register);
-
 
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +46,7 @@ public class Register extends Activity {
             public void onClick(View view) {
                 String str_mail = mail.getText().toString().trim();
                 String str_pwd = password.getText().toString().trim();
-
+                String str_check = check.getText().toString().trim();
                 //check the fields
                 if(TextUtils.isEmpty(str_mail)){
                     mail.setError("Email is required");
@@ -55,6 +60,19 @@ public class Register extends Activity {
                     password.setError("Password must have minimum of 6 characters");
                     return;
                 }
+                if(TextUtils.isEmpty(str_check)){
+                    check.setError("this field is required");
+                    return;
+                }
+                if (str_check.length() < 6){
+                    check.setError("Password must have minimum of 6 characters");
+                    return;
+                }
+                if(!str_check.equals(str_pwd)){
+                    check.setError("Both passwords must match");
+                    return;
+                }
+
                 pb.setVisibility(View.VISIBLE);
 
                 //Register the user
@@ -66,6 +84,7 @@ public class Register extends Activity {
                             Toast.makeText(Register.this,"User Created",Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         }else {
+                            pb.setVisibility(View.INVISIBLE);
                             Toast.makeText(Register.this,"Error: "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }

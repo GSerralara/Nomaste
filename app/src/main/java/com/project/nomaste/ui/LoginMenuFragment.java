@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+// import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.nomaste.Login;
 import com.project.nomaste.MainActivity;
@@ -20,7 +21,7 @@ import androidx.fragment.app.Fragment;
 
 public class LoginMenuFragment extends Fragment {
     FirebaseAuth auth;
-    Button normalLoginButton,googleLoginButton;
+    Button normalLoginButton;
     TextView signUpText;
     @Nullable
     @Override
@@ -47,7 +48,7 @@ public class LoginMenuFragment extends Fragment {
         signUpText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(((Login) getActivity()).getApplicationContext(), Register.class));
+                ((Login) getActivity()).goToRegister();
             }
         });
 

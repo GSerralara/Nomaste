@@ -18,7 +18,7 @@
     <item
         android:id="@+id/smart_cleaning"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/ic_baseline_eco_24"
         android:title="S-cleaning"/>
     <item
         android:id="@+id/setting"

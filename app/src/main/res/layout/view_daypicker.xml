@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
     android:layout_width="match_parent"
@@ -37,8 +36,8 @@
             android:layout_marginRight="3dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:textOff="M"
-            android:textOn="M"
+            android:textOff="Mi"
+            android:textOn="Mi"
             style="@style/toggleButton"
             android:background="@drawable/toggle_bg" />
 

@@ -9,8 +9,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,79 +29,87 @@ import java.net.URL;
 import java.util.LinkedList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class Gamepad extends Activity {
+public class Gamepad extends Fragment {
     AutoCompleteTextView autoCTVRobots;
-    AutoCompleteTextView autoCTVSpeeds;
     public String pressedButton;
+    int id;
+    public Gamepad (){
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.gamepad);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        autoCTVRobots = findViewById(R.id.robotsGamepadList);
-        SharedPreferences prefe = getApplicationContext().getSharedPreferences("datos", Context.MODE_PRIVATE);
+        // Inflate the fragment layout
+        final View rootView = inflater.inflate(R.layout.gamepad, container, false);
+        autoCTVRobots = rootView.findViewById(R.id.robotsGamepadList);
+        SharedPreferences prefe = rootView.getContext().getApplicationContext().getSharedPreferences("datos", Context.MODE_PRIVATE);
         LinkedList<Robot> robots = JSONDataModeler.getRobots(prefe.getString("robot",""));
+        if(robots == null||robots.isEmpty()) robots = JSONDataModeler.translateRobots(prefe.getString("robot",""));
 
-
-        ArrayAdapter arrayAdapterRobots = new ArrayAdapter(this,R.layout.list_robots,getRobotIds(robots));
+        ArrayAdapter arrayAdapterRobots = new ArrayAdapter(rootView.getContext(),R.layout.list_robots,getRobotIds(robots));
         // to make default value
         autoCTVRobots.setText(arrayAdapterRobots.getItem(0).toString(),false);
 
         autoCTVRobots.setAdapter(arrayAdapterRobots);
+        autoCTVRobots.setKeyListener(null);
 
-        autoCTVRobots = findViewById(R.id.speedsGamepadList);
-        String []speeds = {"None","Slow","High"};
-        ArrayAdapter arrayAdapterSpeeds = new ArrayAdapter(this,R.layout.list_robots,speeds);
         // to make default value
-        autoCTVRobots.setText(arrayAdapterSpeeds.getItem(0).toString(),false);
 
-        autoCTVRobots.setAdapter(arrayAdapterSpeeds);
-        final Button down = findViewById(R.id.down_button);
+        final Button down = rootView.findViewById(R.id.down_button);
         down.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pressedButton="Down";
-                Toast.makeText(getApplicationContext(),
-                        "pressed button", Toast.LENGTH_SHORT);
-                //ToDo: get selected robot id
-                URL patchUrl = HyperTextRequester.buildUrl("Manual/1.json");
+                id = Integer.parseInt(autoCTVRobots.getText().toString().replaceAll("[^0-9]", ""));
+                URL patchUrl = HyperTextRequester.buildUrl("Manual/"+id+".json");
                 new sendManualFirebaseTask().execute(patchUrl);
             }
         });
-        final Button up = findViewById(R.id.up_button);
+        final Button up = rootView.findViewById(R.id.up_button);
         up.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pressedButton="Up";
-                System.out.println(HyperTextRequester.buildUrl("Manual/1.json").toString());
-                System.out.println(JSONDataModeler.createBodyManualRequest(1,pressedButton));
-                Toast.makeText(getApplicationContext(),
-                        "pressed button", Toast.LENGTH_SHORT);
-                //ToDo: get selected robot id
-                URL patchUrl = HyperTextRequester.buildUrl("Manual/1.json");
+                id = Integer.parseInt(autoCTVRobots.getText().toString().replaceAll("[^0-9]", ""));
+                URL patchUrl = HyperTextRequester.buildUrl("Manual/"+id+".json");
                 new sendManualFirebaseTask().execute(patchUrl);
             }
         });
-        final Button right = findViewById(R.id.right_button);
+        final Button right = rootView.findViewById(R.id.right_button);
         right.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pressedButton="Right";
-                Toast.makeText(getApplicationContext(),
-                        "pressed button", Toast.LENGTH_SHORT);
-                //ToDo: get selected robot id
-                URL patchUrl = HyperTextRequester.buildUrl("Manual/1.json");
+                id = Integer.parseInt(autoCTVRobots.getText().toString().replaceAll("[^0-9]", ""));
+                URL patchUrl = HyperTextRequester.buildUrl("Manual/"+id+".json");
                 new sendManualFirebaseTask().execute(patchUrl);
             }
         });
-        final Button left = findViewById(R.id.left_button);
+        final Button left = rootView.findViewById(R.id.left_button);
         left.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pressedButton="Left";
-                //ToDo: get selected robot id
-                URL patchUrl = HyperTextRequester.buildUrl("Manual/1.json");
+                id = Integer.parseInt(autoCTVRobots.getText().toString().replaceAll("[^0-9]", ""));
+                URL patchUrl = HyperTextRequester.buildUrl("Manual/"+id+".json");
                 new sendManualFirebaseTask().execute(patchUrl);
             }
         });
+        final Button stop = rootView.findViewById(R.id.stop_button);
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pressedButton="Stop";
+                id = Integer.parseInt(autoCTVRobots.getText().toString().replaceAll("[^0-9]", ""));
+                URL patchUrl = HyperTextRequester.buildUrl("Manual/"+id+".json");
+                new sendManualFirebaseTask().execute(patchUrl);
+            }
+        });
+        return rootView;
     }
     private String [] getRobotIds(LinkedList<Robot> robots){
         if(robots.size()>0){
@@ -119,8 +130,8 @@ public class Gamepad extends Activity {
         @Override
         protected String doInBackground(URL... params) {
             URL patchUrl = params[0];
-            //ToDo: get selected id
-            String body = JSONDataModeler.createBodyManualRequest(1,pressedButton);
+
+            String body = JSONDataModeler.createBodyManualRequest(id,pressedButton);
             try {
                 HyperTextRequester.patchDataFromHttpURL(patchUrl, body);
             } catch (IOException e) {

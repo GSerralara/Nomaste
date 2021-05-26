@@ -37,6 +37,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        this.loginMenuFragment = new LoginMenuFragment();
+        this.loginScreenFragment = new LoginScreenFragment();
 
         pb = findViewById(R.id.progressBar_login);
         loadFragment(loginMenuFragment);
@@ -44,7 +46,7 @@ public class Login extends AppCompatActivity {
     }
     private void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container,fragment);
+        transaction.replace(R.id.login_container,fragment);
         transaction.commit();
     }
     public void loadLoginMenu(){
@@ -62,4 +64,8 @@ public class Login extends AppCompatActivity {
     public void goToMain(){
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
+    public void goToRegister(){
+        startActivity(new Intent(getApplicationContext(),Register.class));
+    }
+
 }

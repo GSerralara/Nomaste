@@ -18,7 +18,10 @@ public class HyperTextRequester {
             "https://nomaste-app.firebaseio.com/";
     final static String GOOGLE_IDENTITY_TOOL_KIT_URL =
             "https://identitytoolkit.googleapis.com/v1/accounts:";
-    final static String API_KEY = "AIzaSyBamnE8E6ZhkqExxcHW8PQ2WDE2NSWnm1s";
+
+    public static String get_URL(){
+        return FIREBASE_REALTIME_DATABASE_URL;
+    }
     /**
      * Builds the URL used to query Firebase.
      *
@@ -61,6 +64,22 @@ public class HyperTextRequester {
 
         return url;
     }
+    public static URL createURL(String str,String uid,String query){
+        Uri builtUri = Uri.parse(FIREBASE_REALTIME_DATABASE_URL).buildUpon()
+                .appendPath(str)
+                .appendPath(uid)
+                .appendPath(query)
+                .build();
+        Log.i("URL", "buildUrl: "+builtUri.toString());
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
     /**
      * This method returns the entire result from the HTTP response.
      *
@@ -87,25 +106,6 @@ public class HyperTextRequester {
         }
     }
 
-    public static void postDataFromHttpURL(URL url, String data) throws IOException{
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-        try {
-            conn.setRequestMethod("POST");
-            String content = "body=" + URLEncoder.encode(data,"UTF-8");
-            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setDoOutput(true);
-            OutputStream out = conn.getOutputStream();
-            byte[] input = data.getBytes("utf-8");
-            out.write(input, 0, input.length);
-            //out.flush();
-            out.close();
-
-        } finally {
-            if(conn!=null)
-                conn.disconnect();
-        }
-    }
 
     public static void patchDataFromHttpURL(URL url, String data) throws IOException{
         Log.i("Patch", "patchDataFromHttpURL: "+url.toString());

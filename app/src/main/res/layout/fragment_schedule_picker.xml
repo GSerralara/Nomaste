@@ -32,16 +32,102 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/picker_Title" />
 
-
-    <include
-        android:id="@+id/daypicker"
-        layout="@layout/view_daypicker"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer"></include>
+        app:layout_constraintTop_toBottomOf="@+id/timer">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ToggleButton
+                android:id="@+id/tL"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:textOff="L"
+                android:textOn="L"
+                style="@style/toggleButton"
+                android:background="@drawable/toggle_bg" />
+
+            <ToggleButton
+                android:id="@+id/tM"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:textOff="M"
+                android:textOn="M"
+                style="@style/toggleButton"
+                android:background="@drawable/toggle_bg" />
+
+            <ToggleButton
+                android:id="@+id/tMi"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:textOff="Mi"
+                android:textOn="Mi"
+                style="@style/toggleButton"
+                android:background="@drawable/toggle_bg" />
+
+            <ToggleButton
+                android:id="@+id/tJ"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:textOff="J"
+                android:textOn="J"
+                style="@style/toggleButton"
+                android:background="@drawable/toggle_bg" />
+
+            <ToggleButton
+                android:id="@+id/tV"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:textOff="V"
+                android:textOn="V"
+                style="@style/toggleButton"
+                android:background="@drawable/toggle_bg" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <ToggleButton
+                android:id="@+id/tS"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:textOff="S"
+                android:textOn="S"
+                style="@style/toggleButton"
+                android:background="@drawable/toggle_bg" />
+            <ToggleButton
+                android:id="@+id/tD"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:textOff="D"
+                android:textOn="D"
+                style="@style/toggleButton"
+                android:background="@drawable/toggle_bg" />
+        </LinearLayout>
+    </LinearLayout>
+
     <Button
         android:id="@+id/button_SaveSchedule"
         android:layout_width="wrap_content"
@@ -53,4 +139,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_robotSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_SaveSchedule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        android:text="Select Robot Id"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_robotSchedule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/daypicker" />
 </androidx.constraintlayout.widget.ConstraintLayout>

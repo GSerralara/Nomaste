@@ -29,9 +29,10 @@ public class Launcher extends Activity {
             @Override
             public void run() {
                 /* Create an Intent that will start the MainActivity. */
-                Intent mainIntent = new Intent(Launcher.this,MainActivity.class);
+                Intent mainIntent = new Intent(Launcher.this,Login.class);
                 Launcher.this.startActivity(mainIntent);
                 Launcher.this.finish();
+                //startActivity(new Intent(Launcher.this,Login.class));
             }
         }, DISPLAY_LENGTH*SECONDS);
     }
